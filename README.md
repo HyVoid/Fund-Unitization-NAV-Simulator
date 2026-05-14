@@ -37,7 +37,7 @@ Start adding transactions (Invest, Withdraw, or Market P&L) and watch the ledger
 
 I have built a fully automated, plug-and-play Excel/Google Sheets template based on this exact logic.
 
-👉 [Get the automated Spreadsheet Template here] ( https://alexhasgreatestuff.gumroad.com/l/tracklogofinvestors)
+👉 [Get the automated Spreadsheet Template here](https://alexhasgreatestuff.gumroad.com/l/tracklogofinvestors)
 
 🇨🇳 简体中文
 
@@ -71,7 +71,7 @@ I have built a fully automated, plug-and-play Excel/Google Sheets template based
 
 如果你在实战中需要追踪多人的复杂账目，我已经根据这套逻辑制作了完全自动化的高级版 Excel / Google Sheets 模版。只需输入流水，余额自动算好。
 
-👉 [点击获取全自动表格模版] (https://alexhasgreatestuff.gumroad.com/l/tracklogofinvestors)
+👉 [点击获取全自动表格模版](https://alexhasgreatestuff.gumroad.com/l/tracklogofinvestors)
 
 📄 License / 开源协议
 
