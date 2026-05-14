@@ -1,4 +1,4 @@
-# unitization-simulator
+# Fund Unitization (NAV) Simulator
 Fund Unitization (NAV) Simulator 📈
 
 净值化资金池收益分配模拟器
