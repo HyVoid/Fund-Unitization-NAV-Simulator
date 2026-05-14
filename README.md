@@ -5,7 +5,7 @@ Fund Unitization (NAV) Simulator 📈
 
 Read this in other languages:[English](#-english) | [简体中文](#-简体中文)
 
-🇬🇧 English
+## 🇬🇧 English
 
 📖 What is this?
 
@@ -39,7 +39,7 @@ I have built a fully automated, plug-and-play Excel/Google Sheets template based
 
 👉 [Get the automated Spreadsheet Template here](https://alexhasgreatestuff.gumroad.com/l/tracklogofinvestors)
 
-🇨🇳 简体中文
+## 🇨🇳 简体中文
 
 📖 这是什么？
 
