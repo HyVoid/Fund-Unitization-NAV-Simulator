@@ -45,7 +45,7 @@ Clean, modern UI (Tailwind CSS) showcasing total pool cash, units issued, curren
 
 I have built a fully automated, plug-and-play Excel / Google Sheets template based on this exact logic.
 
-👉 [Get the automated Spreadsheet Template here](https://alexhasgreatestuff.gumroad.com/l/FundUnitization(NAV)Dashboad)
+👉 [Get the automated Spreadsheet Template here](https://alexhasgreatestuff.gumroad.com/l/FundUnitizationDashboad)
 
 ---
 ---
@@ -89,7 +89,7 @@ Tableau de bord épuré et moderne construit avec Tailwind CSS, où les variatio
 
 Si vous avez besoin de suivre des comptes complexes impliquant plusieurs personnes en situation réelle, j'ai créé une version avancée entièrement automatisée sous forme de modèle Excel / Google Sheets basé sur cette même logique — il suffit de saisir les transactions pour que les soldes se calculent automatiquement.
 
-👉 [Obtenir le modèle de tableur entièrement automatisé](https://alexhasgreatestuff.gumroad.com/l/FundUnitization(NAV)Dashboad)
+👉 [Obtenir le modèle de tableur entièrement automatisé](https://alexhasgreatestuff.gumroad.com/l/FundUnitizationDashboad)
 
 ---
 
