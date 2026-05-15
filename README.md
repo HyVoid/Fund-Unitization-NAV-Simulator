@@ -37,6 +37,7 @@ Clean, modern UI (Tailwind CSS) showcasing total pool cash, units issued, curren
 1. Download or clone this repository.
 2. Double-click the `index.html` file to open it in your browser.
 3. Start adding transactions — **Invest**, **Withdraw**, or **Market P&L** — and watch the ledger update in real time.
+4. [Or you can visit it directly on Github](https://hyvoid.github.io/Fund-Unitization-NAV-Simulator/)
 
 ---
 
@@ -80,6 +81,7 @@ I have built a fully automated, plug-and-play Excel / Google Sheets template bas
 1. 下载此代码仓库。
 2. 使用任何现代浏览器（Chrome / Edge / Safari）直接打开 `index.html` 文件。
 3. 在左侧面板添加交易行为（**入金、出金或市场盈亏**），观察右侧的筹码与净值实时变化。
+4. [在本页面直接使用](https://hyvoid.github.io/Fund-Unitization-NAV-Simulator/)
 
 ---
 
