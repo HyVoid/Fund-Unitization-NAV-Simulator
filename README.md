@@ -10,7 +10,7 @@ Read this in other languages: [English](#-english) | [Français](#-français)
 
 An interactive simulator demonstrating how investment pools can fairly distribute profits and losses when participants enter and exit at different times.
 
-**Live demo:** https://hyvoid.github.io/Fund-Unitization-NAV-Simulator/
+[**Live demo:**]( https://hyvoid.github.io/Fund-Unitization-NAV-Simulator/)
 
 ---
 
@@ -93,12 +93,12 @@ The accounting state is fully visible at each step, rather than hidden inside sp
 ## Usage
 
 ```bash
-git clone https://github.com/hyvoid/Fund-Unitization-NAV-Simulator.git
+[git clone](https://github.com/hyvoid/Fund-Unitization-NAV-Simulator.git)
 ```
 
 Open `index.html` in any browser. No server required.
 
-Or use the hosted version directly: https://hyvoid.github.io/Fund-Unitization-NAV-Simulator/
+[Or use the hosted version directly:](https://hyvoid.github.io/Fund-Unitization-NAV-Simulator/)
 
 ---
 
@@ -106,8 +106,7 @@ Or use the hosted version directly: https://hyvoid.github.io/Fund-Unitization-NA
 
 This repository is an educational prototype. It is designed to demonstrate the accounting logic visually, not to serve as a production ledger or replace operational accounting software.
 
-For long-term operational use (automated investor ledgers, IRR tracking, mobile access), a full spreadsheet version built on the same model is available separately:
-https://alexhasgreatestuff.gumroad.com/l/FundUnitizationDashboad
+[For long-term operational use (automated investor ledgers, IRR tracking, mobile access), a full spreadsheet version built on the same model is available separately:](https://alexhasgreatestuff.gumroad.com/l/FundUnitizationDashboad)
 
 ---
 
@@ -206,12 +205,12 @@ L'état comptable est entièrement visible à chaque étape, sans être dissimul
 ## Utilisation
 
 ```bash
-git clone https://github.com/hyvoid/Fund-Unitization-NAV-Simulator.git
+[git clone](https://github.com/hyvoid/Fund-Unitization-NAV-Simulator.git)
 ```
 
 Ouvrez `index.html` dans n'importe quel navigateur. Aucun serveur requis.
 
-Ou utilisez directement la version hébergée : https://hyvoid.github.io/Fund-Unitization-NAV-Simulator/
+[Ou utilisez directement la version hébergée :](https://hyvoid.github.io/Fund-Unitization-NAV-Simulator/)
 
 ---
 
@@ -219,8 +218,7 @@ Ou utilisez directement la version hébergée : https://hyvoid.github.io/Fund-Un
 
 Ce dépôt est un prototype à visée pédagogique. Il est conçu pour illustrer la logique comptable visuellement, non pour servir de registre opérationnel ou remplacer un logiciel comptable en production.
 
-Pour un usage opérationnel long terme (registres investisseurs automatisés, suivi IRR, accès mobile), une version tableur complète construite sur le même modèle est disponible séparément :
-https://alexhasgreatestuff.gumroad.com/l/FundUnitizationDashboad
+[Pour un usage opérationnel long terme (registres investisseurs automatisés, suivi IRR, accès mobile), une version tableur complète construite sur le même modèle est disponible séparément :](https://alexhasgreatestuff.gumroad.com/l/FundUnitizationDashboad)
 
 ---
 
