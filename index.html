@@ -4,50 +4,178 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Fund Unitization (NAV) Simulator</title>
-  
-  <!-- Load Tailwind CSS via CDN for styling -->
   <script src="https://cdn.tailwindcss.com"></script>
-  
-  <!-- Load React & ReactDOM via CDN -->
   <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
   <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-  
-  <!-- Load Babel to compile JSX in the browser -->
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-
   <style>
-    /* Custom font fallback for a cleaner look */
     body { font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; }
+
+    .lang-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1.5px solid transparent;
+      transition: all 0.18s ease;
+      letter-spacing: 0.02em;
+    }
+    .lang-btn.active {
+      background: #059669;
+      color: #fff;
+      border-color: #059669;
+      box-shadow: 0 2px 8px rgba(5,150,105,0.18);
+    }
+    .lang-btn.inactive {
+      background: #f1f5f9;
+      color: #64748b;
+      border-color: #e2e8f0;
+    }
+    .lang-btn.inactive:hover {
+      background: #e2e8f0;
+      color: #334155;
+    }
+    .flag { font-size: 15px; line-height: 1; }
   </style>
 </head>
 <body class="bg-slate-50 text-slate-800">
 
-  <!-- React mounting point -->
   <div id="root"></div>
 
-  <!-- The React App component written in JSX -->
   <script type="text/babel">
     const { useState, useMemo } = React;
 
-    // --- Inline SVG Icon Components (Replacing Lucide dependencies) ---
-    const IconPlus = () => <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-emerald-500"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>;
-    const IconMinus = () => <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-red-500"><circle cx="12" cy="12" r="10"></circle><line x1="8" y1="12" x2="16" y2="12"></line></svg>;
-    const IconTrendUp = ({ size=16, className="text-orange-500" }) => <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline><polyline points="16 7 22 7 22 13"></polyline></svg>;
-    const IconTrendDown = () => <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-red-500"><polyline points="22 17 13.5 8.5 8.5 13.5 2 7"></polyline><polyline points="16 17 22 17 22 11"></polyline></svg>;
-    const IconRefresh = () => <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="1 4 1 10 7 10"></polyline><polyline points="23 20 23 14 17 14"></polyline><path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 0 1 3.51 15"></path></svg>;
-    const IconExternal = () => <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-emerald-400"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>;
+    // ─── i18n Strings ────────────────────────────────────────────────────────────
+    const TRANSLATIONS = {
+      en: {
+        pageTitle: "Fund Unitization (NAV) Simulator",
+        pageSubtitle: "An interactive tool demonstrating how the \"Net Asset Value\" (NAV) method solves complex profit distributions for partnerships with dynamic cash flows.",
+        addTransaction: "Add Transaction",
+        transactionType: "Transaction Type",
+        typeInvest: "Deposit (Buy Units)",
+        typeWithdraw: "Withdrawal (Sell Units)",
+        typeMarket: "Market Change (P&L)",
+        partner: "Partner",
+        partnerA: "Partner A",
+        partnerB: "Partner B",
+        partnerC: "Partner C",
+        amount: "Amount ($)",
+        amountPlaceholderMarket: "+ for gain, - for loss",
+        amountPlaceholderDefault: "Enter amount",
+        formulaHint: (amt, nav, units) =>
+          <>Formula: ${amt} ÷ ${nav} (Current NAV) = <br/><strong className="text-emerald-600">{units} Units</strong></>,
+        addRecord: "Add Record",
+        resetAll: "Reset All Data",
+        totalPool: "Total Pool Value",
+        totalUnits: "Total Units Issued",
+        currentNav: "Current NAV per Unit",
+        partnerLedger: "Partner Ledger (Units × Current NAV = Real Value)",
+        partnerLabel: (p) => `Partner ${p}`,
+        unitsHeld: "Units Held:",
+        currentValue: "Current Value:",
+        transactionHistory: "Transaction History",
+        noTransactions: "No transactions yet. Add one on the left.",
+        colAction: "Action",
+        colAmount: "Amount ($)",
+        colNavBefore: "NAV Before",
+        colUnits: "Units Transacted",
+        colNavAfter: "NAV After",
+        actionDeposit: "Deposit",
+        actionWithdrawal: "Withdrawal",
+        actionPL: "P&L",
+        ctaHeadline: "Tired of fighting with Excel formulas?",
+        ctaBody: <>Get the fully automated <strong>Unitization Dashboard Template</strong> for Excel & Google Sheets. Just log the transactions, and it handles the rest.</>,
+      },
+      fr: {
+        pageTitle: "Simulateur de Fonds (VNI)",
+        pageSubtitle: "Un outil interactif démontrant comment la méthode de la « Valeur Nette d'Inventaire » (VNI) résout les distributions complexes de bénéfices pour les partenariats à flux de trésorerie dynamiques.",
+        addTransaction: "Ajouter une Transaction",
+        transactionType: "Type de Transaction",
+        typeInvest: "Dépôt (Achat de Parts)",
+        typeWithdraw: "Retrait (Vente de Parts)",
+        typeMarket: "Variation de Marché (P&P)",
+        partner: "Associé",
+        partnerA: "Associé A",
+        partnerB: "Associé B",
+        partnerC: "Associé C",
+        amount: "Montant ($)",
+        amountPlaceholderMarket: "+ pour gain, - pour perte",
+        amountPlaceholderDefault: "Entrez le montant",
+        formulaHint: (amt, nav, units) =>
+          <>Formule : ${amt} ÷ ${nav} (VNI actuelle) = <br/><strong className="text-emerald-600">{units} Parts</strong></>,
+        addRecord: "Ajouter l'Enregistrement",
+        resetAll: "Réinitialiser Toutes les Données",
+        totalPool: "Valeur Totale du Fonds",
+        totalUnits: "Total des Parts Émises",
+        currentNav: "VNI Actuelle par Part",
+        partnerLedger: "Grand Livre des Associés (Parts × VNI actuelle = Valeur Réelle)",
+        partnerLabel: (p) => `Associé ${p}`,
+        unitsHeld: "Parts Détenues :",
+        currentValue: "Valeur Actuelle :",
+        transactionHistory: "Historique des Transactions",
+        noTransactions: "Aucune transaction. Ajoutez-en une à gauche.",
+        colAction: "Action",
+        colAmount: "Montant ($)",
+        colNavBefore: "VNI Avant",
+        colUnits: "Parts Transactées",
+        colNavAfter: "VNI Après",
+        actionDeposit: "Dépôt",
+        actionWithdrawal: "Retrait",
+        actionPL: "P&P",
+        ctaHeadline: "Fatigué des formules Excel ?",
+        ctaBody: <>Obtenez le <strong>Modèle de Tableau de Bord de Répartition</strong> entièrement automatisé pour Excel et Google Sheets. Il suffit d'enregistrer les transactions, le reste est géré automatiquement.</>,
+      }
+    };
 
+    // ─── SVG Icons ────────────────────────────────────────────────────────────────
+    const IconPlus = () => <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-emerald-500"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>;
+    const IconMinus = () => <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-red-500"><circle cx="12" cy="12" r="10"/><line x1="8" y1="12" x2="16" y2="12"/></svg>;
+    const IconTrendUp = ({ size=16, className="text-orange-500" }) => <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>;
+    const IconTrendDown = () => <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-red-500"><polyline points="22 17 13.5 8.5 8.5 13.5 2 7"/><polyline points="16 17 22 17 22 11"/></svg>;
+    const IconRefresh = () => <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="1 4 1 10 7 10"/><polyline points="23 20 23 14 17 14"/><path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 0 1 3.51 15"/></svg>;
+    const IconExternal = () => <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-emerald-400"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>;
+
+    // ─── Language Switcher Component ──────────────────────────────────────────────
+    function LanguageSwitcher({ lang, setLang }) {
+      return (
+        <div style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
+          <button
+            className={`lang-btn ${lang === 'en' ? 'active' : 'inactive'}`}
+            onClick={() => setLang('en')}
+            title="English"
+          >
+            <span className="flag">🇬🇧</span> EN
+          </button>
+          <button
+            className={`lang-btn ${lang === 'fr' ? 'active' : 'inactive'}`}
+            onClick={() => setLang('fr')}
+            title="Français"
+          >
+            <span className="flag">🇫🇷</span> FR
+          </button>
+        </div>
+      );
+    }
+
+    // ─── Main App ─────────────────────────────────────────────────────────────────
     function App() {
+      const [lang, setLang] = useState('en');
+      const t = TRANSLATIONS[lang];
+
       const [transactions, setTransactions] = useState([]);
       const [person, setPerson] = useState('A');
       const [amount, setAmount] = useState('');
       const [type, setType] = useState('invest');
 
-      // Core Unitization Logic Engine
+      // Core Unitization Logic
       const ledger = useMemo(() => {
         let totalCash = 0;
         let totalUnits = 0;
-        let holdings = {}; // { A: 100, B: 50 }
+        let holdings = {};
         let logs = [];
 
         transactions.forEach((txn, index) => {
@@ -65,13 +193,10 @@
             totalUnits -= unitsToTransact;
             holdings[txn.person] = (holdings[txn.person] || 0) - unitsToTransact;
           } else if (txn.type === 'market_change') {
-            // Only cash value changes, unit count remains identical
-            totalCash += txn.amount; 
+            totalCash += txn.amount;
           }
 
-          // Re-calculate NAV after transaction
           const newNAV = totalUnits === 0 ? 1 : totalCash / totalUnits;
-
           logs.push({
             ...txn,
             id: index,
@@ -90,7 +215,6 @@
       const handleAddTransaction = (e) => {
         e.preventDefault();
         if (!amount || isNaN(amount)) return;
-        
         setTransactions([...transactions, {
           type,
           person: type === 'market_change' ? 'Market' : person,
@@ -102,110 +226,124 @@
 
       const reset = () => setTransactions([]);
 
+      // Translate partner dropdown value label
+      const partnerLabel = (code) => {
+        const map = { A: t.partnerA, B: t.partnerB, C: t.partnerC };
+        return map[code] || code;
+      };
+
       return (
         <div className="min-h-screen flex flex-col p-6">
           <div className="max-w-6xl mx-auto space-y-6 flex-grow w-full">
-            
+
+            {/* ── Header + Language Switcher ── */}
             <header className="mb-8">
-              <h1 className="text-3xl font-bold text-slate-900">Fund Unitization (NAV) Simulator</h1>
-              <p className="text-slate-500 mt-2">
-                An interactive tool demonstrating how the "Net Asset Value" (NAV) method solves complex profit distributions for partnerships with dynamic cash flows.
-              </p>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '12px' }}>
+                <div>
+                  <h1 className="text-3xl font-bold text-slate-900">{t.pageTitle}</h1>
+                  <p className="text-slate-500 mt-2 max-w-2xl">{t.pageSubtitle}</p>
+                </div>
+                <div style={{ paddingTop: '4px', flexShrink: 0 }}>
+                  <LanguageSwitcher lang={lang} setLang={setLang} />
+                </div>
+              </div>
             </header>
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-              
-              {/* Left Panel: Control Box */}
+
+              {/* ── Left Panel: Controls ── */}
               <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 col-span-1 h-fit">
-                <h2 className="text-xl font-semibold mb-4">Add Transaction</h2>
+                <h2 className="text-xl font-semibold mb-4">{t.addTransaction}</h2>
                 <form onSubmit={handleAddTransaction} className="space-y-4">
-                  
+
                   <div>
-                    <label className="block text-sm font-medium text-slate-700 mb-1">Transaction Type</label>
-                    <select 
-                      value={type} 
+                    <label className="block text-sm font-medium text-slate-700 mb-1">{t.transactionType}</label>
+                    <select
+                      value={type}
                       onChange={(e) => setType(e.target.value)}
                       className="w-full p-2 border border-slate-300 rounded-lg bg-slate-50 focus:ring-2 focus:ring-emerald-500 outline-none"
                     >
-                      <option value="invest">Deposit (Buy Units)</option>
-                      <option value="withdraw">Withdrawal (Sell Units)</option>
-                      <option value="market_change">Market Change (P&L)</option>
+                      <option value="invest">{t.typeInvest}</option>
+                      <option value="withdraw">{t.typeWithdraw}</option>
+                      <option value="market_change">{t.typeMarket}</option>
                     </select>
                   </div>
 
                   {type !== 'market_change' && (
                     <div>
-                      <label className="block text-sm font-medium text-slate-700 mb-1">Partner</label>
-                      <select 
-                        value={person} 
+                      <label className="block text-sm font-medium text-slate-700 mb-1">{t.partner}</label>
+                      <select
+                        value={person}
                         onChange={(e) => setPerson(e.target.value)}
                         className="w-full p-2 border border-slate-300 rounded-lg bg-slate-50 focus:ring-2 focus:ring-emerald-500 outline-none"
                       >
-                        <option value="A">Partner A</option>
-                        <option value="B">Partner B</option>
-                        <option value="C">Partner C</option>
+                        <option value="A">{t.partnerA}</option>
+                        <option value="B">{t.partnerB}</option>
+                        <option value="C">{t.partnerC}</option>
                       </select>
                     </div>
                   )}
 
                   <div>
-                    <label className="block text-sm font-medium text-slate-700 mb-1">Amount ($)</label>
-                    <input 
-                      type="number" 
+                    <label className="block text-sm font-medium text-slate-700 mb-1">{t.amount}</label>
+                    <input
+                      type="number"
                       value={amount}
                       onChange={(e) => setAmount(e.target.value)}
-                      placeholder={type === 'market_change' ? "+ for gain, - for loss" : "Enter amount"}
+                      placeholder={type === 'market_change' ? t.amountPlaceholderMarket : t.amountPlaceholderDefault}
                       className="w-full p-2 border border-slate-300 rounded-lg bg-slate-50 focus:ring-2 focus:ring-emerald-500 outline-none"
                       required
                     />
                   </div>
 
-                   {/* Math explanation hint */}
                   {type !== 'market_change' && amount && !isNaN(amount) && (
                     <div className="text-xs text-slate-500 bg-slate-100 p-3 rounded border border-slate-200">
-                      Formula: ${parseFloat(amount).toLocaleString()} ÷ ${ledger.currentNAV.toFixed(4)} (Current NAV) = <br/>
-                      <strong className="text-emerald-600">{(parseFloat(amount) / ledger.currentNAV).toLocaleString(undefined, {maximumFractionDigits: 2})} Units</strong>
+                      {t.formulaHint(
+                        parseFloat(amount).toLocaleString(),
+                        ledger.currentNAV.toFixed(4),
+                        (parseFloat(amount) / ledger.currentNAV).toLocaleString(undefined, { maximumFractionDigits: 2 })
+                      )}
                     </div>
                   )}
 
-                  <button 
-                    type="submit" 
+                  <button
+                    type="submit"
                     className="w-full bg-emerald-600 text-white font-medium py-2 px-4 rounded-lg hover:bg-emerald-700 transition flex justify-center items-center gap-2"
                   >
-                    Add Record
+                    {t.addRecord}
                   </button>
                 </form>
 
                 <button onClick={reset} className="w-full mt-4 text-slate-400 hover:text-slate-600 text-sm flex justify-center items-center gap-1 py-2 transition">
-                  <IconRefresh /> Reset All Data
+                  <IconRefresh /> {t.resetAll}
                 </button>
               </div>
 
-              {/* Right Panel: Data Visualization */}
+              {/* ── Right Panel: Data ── */}
               <div className="lg:col-span-2 space-y-6">
-                
+
                 {/* Stats Cards */}
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                   <div className="bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
-                    <div className="text-sm text-slate-500 mb-1">Total Pool Value</div>
-                    <div className="text-2xl font-bold font-mono">${ledger.totalCash.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</div>
+                    <div className="text-sm text-slate-500 mb-1">{t.totalPool}</div>
+                    <div className="text-2xl font-bold font-mono">${ledger.totalCash.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
                   </div>
                   <div className="bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
-                    <div className="text-sm text-slate-500 mb-1">Total Units Issued</div>
-                    <div className="text-2xl font-bold font-mono text-emerald-600">{ledger.totalUnits.toLocaleString(undefined, {minimumFractionDigits: 4, maximumFractionDigits: 4})}</div>
+                    <div className="text-sm text-slate-500 mb-1">{t.totalUnits}</div>
+                    <div className="text-2xl font-bold font-mono text-emerald-600">{ledger.totalUnits.toLocaleString(undefined, { minimumFractionDigits: 4, maximumFractionDigits: 4 })}</div>
                   </div>
                   <div className="bg-emerald-600 p-5 rounded-2xl shadow-sm border border-emerald-700 text-white relative overflow-hidden">
                     <div className="absolute -right-4 -top-4 opacity-10">
                       <IconTrendUp size={100} className="text-white" />
                     </div>
-                    <div className="text-sm text-emerald-100 mb-1 relative z-10">Current NAV per Unit</div>
-                    <div className="text-3xl font-bold font-mono relative z-10">${ledger.currentNAV.toLocaleString(undefined, {minimumFractionDigits: 4, maximumFractionDigits: 4})}</div>
+                    <div className="text-sm text-emerald-100 mb-1 relative z-10">{t.currentNav}</div>
+                    <div className="text-3xl font-bold font-mono relative z-10">${ledger.currentNAV.toLocaleString(undefined, { minimumFractionDigits: 4, maximumFractionDigits: 4 })}</div>
                   </div>
                 </div>
 
-                {/* Individual Balances */}
+                {/* Partner Ledger */}
                 <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
-                  <h3 className="text-lg font-semibold mb-4 border-b pb-2">Partner Ledger (Units × Current NAV = Real Value)</h3>
+                  <h3 className="text-lg font-semibold mb-4 border-b pb-2">{t.partnerLedger}</h3>
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                     {['A', 'B', 'C'].map(p => {
                       const units = ledger.holdings[p] || 0;
@@ -213,68 +351,74 @@
                       return (
                         <div key={p} className="bg-slate-50 p-4 rounded-xl border border-slate-200 shadow-sm">
                           <div className="font-bold mb-2 flex items-center justify-between">
-                            <span>Partner {p}</span>
+                            <span>{t.partnerLabel(p)}</span>
                             {units > 0 && <span className="flex h-2 w-2 rounded-full bg-emerald-500"></span>}
                           </div>
                           <div className="text-sm text-slate-500 flex justify-between">
-                            <span>Units Held:</span>
-                            <span className="font-mono">{units.toLocaleString(undefined, {maximumFractionDigits: 2})}</span>
+                            <span>{t.unitsHeld}</span>
+                            <span className="font-mono">{units.toLocaleString(undefined, { maximumFractionDigits: 2 })}</span>
                           </div>
                           <div className="text-sm font-medium flex justify-between mt-2 pt-2 border-t border-slate-200 text-slate-900">
-                            <span>Current Value:</span>
-                            <span className="font-mono">${value.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</span>
+                            <span>{t.currentValue}</span>
+                            <span className="font-mono">${value.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
                           </div>
                         </div>
-                      )
+                      );
                     })}
                   </div>
                 </div>
 
-                {/* Transaction Ledger Table */}
+                {/* Transaction History Table */}
                 <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
                   <div className="p-4 border-b border-slate-100 bg-slate-50">
-                    <h3 className="font-semibold">Transaction History</h3>
+                    <h3 className="font-semibold">{t.transactionHistory}</h3>
                   </div>
                   <div className="overflow-x-auto">
                     <table className="w-full text-sm text-left">
                       <thead className="bg-slate-50 text-slate-500 border-b">
                         <tr>
-                          <th className="px-4 py-3 font-medium">Action</th>
-                          <th className="px-4 py-3 font-medium">Amount ($)</th>
-                          <th className="px-4 py-3 font-medium">NAV Before</th>
-                          <th className="px-4 py-3 font-medium text-emerald-600">Units Transacted</th>
-                          <th className="px-4 py-3 font-medium">NAV After</th>
+                          <th className="px-4 py-3 font-medium">{t.colAction}</th>
+                          <th className="px-4 py-3 font-medium">{t.colAmount}</th>
+                          <th className="px-4 py-3 font-medium">{t.colNavBefore}</th>
+                          <th className="px-4 py-3 font-medium text-emerald-600">{t.colUnits}</th>
+                          <th className="px-4 py-3 font-medium">{t.colNavAfter}</th>
                         </tr>
                       </thead>
                       <tbody className="divide-y divide-slate-100">
                         {ledger.logs.length === 0 ? (
-                          <tr><td colSpan="5" className="px-4 py-12 text-center text-slate-400">No transactions yet. Add one on the left.</td></tr>
+                          <tr><td colSpan="5" className="px-4 py-12 text-center text-slate-400">{t.noTransactions}</td></tr>
                         ) : (
-                          ledger.logs.map(log => (
-                            <tr key={log.id} className="hover:bg-slate-50 transition-colors">
-                              <td className="px-4 py-3 flex items-center gap-2">
-                                {log.type === 'invest' && <IconPlus />}
-                                {log.type === 'withdraw' && <IconMinus />}
-                                {log.type === 'market_change' && log.amount >= 0 && <IconTrendUp />}
-                                {log.type === 'market_change' && log.amount < 0 && <IconTrendDown />}
-                                <span className="font-medium whitespace-nowrap">
-                                  {log.person} {log.type === 'market_change' ? 'P&L' : (log.type === 'invest' ? 'Deposit' : 'Withdrawal')}
-                                </span>
-                              </td>
-                              <td className="px-4 py-3 font-mono">
-                                <span className={log.amount >= 0 ? "text-emerald-600" : "text-red-600"}>
-                                  {log.amount > 0 ? '+' : ''}{log.amount.toLocaleString()}
-                                </span>
-                              </td>
-                              <td className="px-4 py-3 font-mono text-slate-400">${log.navBefore.toFixed(4)}</td>
-                              <td className="px-4 py-3 font-mono text-emerald-600 font-medium">
-                                {log.type === 'market_change' ? '-' : (
-                                  <span>{log.type === 'invest' ? '+' : '-'}{log.unitsTransacted.toFixed(2)}</span>
-                                )}
-                              </td>
-                              <td className="px-4 py-3 font-mono font-semibold">${log.navAfter.toFixed(4)}</td>
-                            </tr>
-                          ))
+                          ledger.logs.map(log => {
+                            const personDisplay = log.person === 'Market' ? 'Market' : t.partnerLabel(log.person);
+                            const actionLabel = log.type === 'market_change'
+                              ? t.actionPL
+                              : log.type === 'invest' ? t.actionDeposit : t.actionWithdrawal;
+                            return (
+                              <tr key={log.id} className="hover:bg-slate-50 transition-colors">
+                                <td className="px-4 py-3 flex items-center gap-2">
+                                  {log.type === 'invest' && <IconPlus />}
+                                  {log.type === 'withdraw' && <IconMinus />}
+                                  {log.type === 'market_change' && log.amount >= 0 && <IconTrendUp />}
+                                  {log.type === 'market_change' && log.amount < 0 && <IconTrendDown />}
+                                  <span className="font-medium whitespace-nowrap">
+                                    {personDisplay} {actionLabel}
+                                  </span>
+                                </td>
+                                <td className="px-4 py-3 font-mono">
+                                  <span className={log.amount >= 0 ? "text-emerald-600" : "text-red-600"}>
+                                    {log.amount > 0 ? '+' : ''}{log.amount.toLocaleString()}
+                                  </span>
+                                </td>
+                                <td className="px-4 py-3 font-mono text-slate-400">${log.navBefore.toFixed(4)}</td>
+                                <td className="px-4 py-3 font-mono text-emerald-600 font-medium">
+                                  {log.type === 'market_change' ? '-' : (
+                                    <span>{log.type === 'invest' ? '+' : '-'}{log.unitsTransacted.toFixed(2)}</span>
+                                  )}
+                                </td>
+                                <td className="px-4 py-3 font-mono font-semibold">${log.navAfter.toFixed(4)}</td>
+                              </tr>
+                            );
+                          })
                         )}
                       </tbody>
                     </table>
@@ -285,27 +429,24 @@
             </div>
           </div>
 
-          {/* Commercial Call To Action (CTA) */}
+          {/* CTA Footer */}
           <footer className="max-w-6xl mx-auto w-full mt-12 mb-4">
-            <a 
-              href="https://alexhasgreatestuff.gumroad.com/l/FundUnitizationDashboad" 
-              target="_blank" 
+            <a
+              href="https://alexhasgreatestuff.gumroad.com/l/FundUnitizationDashboad"
+              target="_blank"
               rel="noopener noreferrer"
               className="block bg-slate-900 text-white rounded-xl p-6 text-center hover:bg-slate-800 transition shadow-lg border border-slate-700"
             >
               <div className="flex items-center justify-center gap-3 text-lg font-semibold">
-                Tired of fighting with Excel formulas? <IconExternal />
+                {t.ctaHeadline} <IconExternal />
               </div>
-              <p className="text-slate-400 mt-2">
-                Get the fully automated <strong>Unitization Dashboard Template</strong> for Excel & Google Sheets. Just log the transactions, and it handles the rest.
-              </p>
+              <p className="text-slate-400 mt-2">{t.ctaBody}</p>
             </a>
           </footer>
         </div>
       );
     }
 
-    // Render the App component into the root DOM node
     const root = ReactDOM.createRoot(document.getElementById('root'));
     root.render(<App />);
   </script>
