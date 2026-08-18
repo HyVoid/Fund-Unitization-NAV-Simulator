@@ -8,7 +8,7 @@
 
 **Designed for investment pools, syndicates, and trading groups where participants contribute capital across multiple dates and need a transparent, continuously updated ownership ledger.**
 
-[Live Demo](https://hyvoid.github.io/Investment-Pool-management/) | [Purchase Complete Excel](https://alexhasgreatestuff.gumroad.com/l/FundUnitizationDashboad)
+[Live Demo](https://hyvoid.github.io/Investment-Pool-management/) | [Purchase Complete Excel](https://alexhasgreatestuff.gumroad.com/l/FundUnitizationDashboad?utm_source=github&utm_medium=GitHub%20README&utm_campaign=readme%20new%20launch&utm_content=fund-unitization-nav)
 
 </div>
 
@@ -207,7 +207,7 @@ The workbook is intended as a decision-support and accounting transparency tool.
 
 Use the complete Excel workbook here:
 
-[Purchase the complete Excel tracker](https://alexhasgreatestuff.gumroad.com/l/FundUnitizationDashboad)
+[Purchase the complete Excel tracker](https://alexhasgreatestuff.gumroad.com/l/FundUnitizationDashboad?utm_source=github&utm_medium=GitHub%20README&utm_campaign=readme%20new%20launch&utm_content=fund-unitization-nav)
 
 ---
 
