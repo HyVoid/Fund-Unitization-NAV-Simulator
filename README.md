@@ -8,7 +8,7 @@
 
 **Designed for investment pools, syndicates, and trading groups where participants contribute capital across multiple dates and need a transparent, continuously updated ownership ledger.**
 
-[Live Demo](https://hyvoid.github.io/Investment-Pool-management/) | [Purchase Complete Excel (free)](https://alexhasgreatestuff.gumroad.com/l/FundUnitizationDashboad)
+[Live Demo](https://hyvoid.github.io/Fund-Unitization-NAV-Excel-tool-for-cashflow-management/) | [Purchase Complete Excel (free)](https://alexhasgreatestuff.gumroad.com/l/FundUnitizationDashboad)
 
 </div>
 
@@ -22,7 +22,7 @@ Track individual participant ownership continuously, resolve dilution automatica
 <img width="1448" height="1086" alt="ChatGPT Image May 18, 2026, 04_56_17 PM" src="https://github.com/user-attachments/assets/71d0cb5b-76f8-4152-b13d-0b58f792e9bc" />
 
 
-> View the interactive accounting model: [fund unitization NAV simulator demo](https://hyvoid.github.io/Investment-Pool-management/)
+> View the interactive accounting model: [fund unitization NAV simulator demo](https://hyvoid.github.io/Fund-Unitization-NAV-Excel-tool-for-cashflow-management/)
 
 ---
 
