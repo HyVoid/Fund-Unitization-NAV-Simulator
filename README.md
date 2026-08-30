@@ -8,7 +8,7 @@
 
 **Designed for investment pools, syndicates, and trading groups where participants contribute capital across multiple dates and need a transparent, continuously updated ownership ledger.**
 
-[Live Demo](https://hyvoid.github.io/Investment-Pool-management/) | [Purchase Complete Excel (free)](https://alexhasgreatestuff.gumroad.com/l/FundUnitizationDashboad?wanted=true)
+[Live Demo](https://hyvoid.github.io/Investment-Pool-management/) | [Purchase Complete Excel (free)](https://alexhasgreatestuff.gumroad.com/l/FundUnitizationDashboad)
 
 </div>
 
