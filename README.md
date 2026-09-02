@@ -8,7 +8,7 @@
 
 **Designed for investment pools, syndicates, and trading groups where participants contribute capital across multiple dates and need a transparent, continuously updated ownership ledger.**
 
-[Live Demo](https://hyvoid.github.io/Fund-Unitization-NAV-Excel-tool-for-cashflow-management/) | [Purchase Complete Excel (free)](https://alexhasgreatestuff.gumroad.com/l/FundUnitizationDashboad?utm_source=github&utm_medium=GitHub%20README&utm_campaign=readme%20new%20launch&utm_content=fund-unitization-nav)
+[Live Demo](https://hyvoid.github.io/Fund-Unitization-NAV-Excel-tool-for-cashflow-management/) | [Purchase Complete Excel (free)](https://www.theseusworkshop.com/l/FundUnitizationDashboad?utm_source=github&utm_medium=GitHub%20README&utm_campaign=readme%20new%20launch&utm_content=fund-unitization-nav)
 
 </div>
 
@@ -207,7 +207,7 @@ The workbook is intended as a decision-support and accounting transparency tool.
 
 Use the complete Excel workbook here:
 
-[Purchase the complete Excel tracker](https://alexhasgreatestuff.gumroad.com/l/FundUnitizationDashboad?utm_source=github&utm_medium=GitHub%20README&utm_campaign=readme%20new%20launch&utm_content=fund-unitization-nav)
+[Purchase the complete Excel tracker](https://www.theseusworkshop.com/l/FundUnitizationDashboad?utm_source=github&utm_medium=GitHub%20README&utm_campaign=readme%20new%20launch&utm_content=fund-unitization-nav)
 
 ---
 
@@ -231,7 +231,7 @@ No fund administration software subscription. No custom development project. No 
 
 Just clear accounting logic, structured transaction data, and repeatable ownership calculations — delivered in software your team already has.
 
-If your operation involves allocation, reconciliation, or ownership tracking problems that currently live in someone's mental model or a disconnected spreadsheet, [see what else is available →](https://alexhasgreatestuff.gumroad.com)
+If your operation involves allocation, reconciliation, or ownership tracking problems that currently live in someone's mental model or a disconnected spreadsheet, [see what else is available →](https://www.theseusworkshop.com)
 
 ---
 
